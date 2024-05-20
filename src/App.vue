@@ -17,6 +17,11 @@ const skiplogin = () => {
 </script>
 
 <template>
+  <router-view></router-view>
+  <hr />
+  <hr />
+  <hr />
+  <hr />
   <el-button type="info" @click="$router.push('/Home')">点击跳转首页</el-button>
   <el-button type="primary" @click="skiplogin">点击跳转登入页</el-button>
   <div>{{ userstore.Token }}</div>
