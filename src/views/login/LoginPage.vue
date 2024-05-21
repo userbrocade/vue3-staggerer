@@ -1,8 +1,10 @@
 <script setup>
-import { userRegisterService } from '@/api/user'
+import { userRegisterService, userLoginService } from '@/api/user'
+import { useUserStore } from '@/stores/pinia'
 import { User, Lock } from '@element-plus/icons-vue'
-import { ref } from 'vue'
-const isRegister = ref(true)
+import { ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
+const isRegister = ref(false)
 // 注册
 // 收集表单
 const form_gather = ref({
@@ -48,6 +50,7 @@ const rules = {
 }
 
 const form = ref() // 获取表单实例
+const router = useRouter() // 获取路由对象
 
 const ClickRegister = async () => {
   console.log(form_gather.value)
@@ -56,6 +59,24 @@ const ClickRegister = async () => {
   ElMessage.success('注册成功')
   isRegister.value = false
 }
+
+const UserStore = useUserStore()
+const ClickLogin = async () => {
+  await form.value.validate()
+  const { data } = await userLoginService(form_gather.value)
+  UserStore.setToken(data.token)
+  ElMessage.success('登入成功')
+  router.push('/')
+}
+
+// 监视 isRegister 切换清空
+watch(isRegister, () => {
+  form_gather.value = {
+    username: '',
+    password: '',
+    repassword: ''
+  }
+})
 </script>
 
 <template>
@@ -114,19 +135,31 @@ const ClickRegister = async () => {
         </el-form-item>
       </el-form>
       <!-- 登入 -->
-      <el-form ref="form" size="large" autocomplete="off" v-else>
+      <el-form
+        ref="form"
+        size="large"
+        autocomplete="off"
+        :model="form_gather"
+        :rules="rules"
+        v-else
+      >
         <el-form-item>
           <h1>登录</h1>
         </el-form-item>
-        <el-form-item>
-          <el-input :prefix-icon="User" placeholder="请输入用户名"></el-input>
+        <el-form-item prop="username">
+          <el-input
+            :prefix-icon="User"
+            placeholder="请输入用户名"
+            v-model="form_gather.username"
+          ></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="password">
           <el-input
             name="password"
             :prefix-icon="Lock"
             type="password"
             placeholder="请输入密码"
+            v-model="form_gather.password"
           ></el-input>
         </el-form-item>
         <el-form-item class="flex">
@@ -136,7 +169,11 @@ const ClickRegister = async () => {
           </div>
         </el-form-item>
         <el-form-item>
-          <el-button class="button" type="primary" auto-insert-space
+          <el-button
+            class="button"
+            type="primary"
+            auto-insert-space
+            @click="ClickLogin"
             >登录</el-button
           >
         </el-form-item>
