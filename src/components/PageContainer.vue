@@ -14,10 +14,8 @@ defineProps({
       <div class="header">
         <span>{{ title }}</span>
         <div class="extra">
-          <el-button type="primary">
-            <!-- 具名插槽 -->
-            <slot name="header_button"></slot>
-          </el-button>
+          <!-- 具名插槽 -->
+          <slot name="extra"></slot>
         </div>
       </div>
     </template>
