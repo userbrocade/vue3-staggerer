@@ -1,7 +1,10 @@
 <script setup></script>
 
 <template>
-  <div>频道管理</div>
+  <PageContainer title="文章分类">
+    <template v-slot:header_button> 添加分类 </template>
+    内容
+  </PageContainer>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped></style>

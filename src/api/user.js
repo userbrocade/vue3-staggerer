@@ -7,3 +7,7 @@ export const userRegisterService = ({ username, password, repassword }) =>
 // 登入
 export const userLoginService = ({ username, password }) =>
   request.post('/api/login', { username, password })
+
+// 用户个人信息
+export const useUserService = (Authorization) =>
+  request.get('/my/userinfo', { Authorization })

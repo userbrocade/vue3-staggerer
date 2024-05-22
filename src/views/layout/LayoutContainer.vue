@@ -10,6 +10,26 @@ import {
   CaretBottom
 } from '@element-plus/icons-vue'
 import avatar from '@/assets/default.png'
+import { useUserStore } from '@/stores/pinia'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+const UserStore = useUserStore()
+onMounted(() => {
+  UserStore.getuser()
+})
+
+const router = useRouter()
+// 头像个人信息下拉菜单 利用@command获取key
+const handleCommand = (key) => {
+  if (key === 'logout') {
+    UserStore.removeToken()
+    UserStore.removeuser()
+    router.push('/login')
+  } else {
+    router.push(`/user/${key}`)
+  }
+}
 </script>
 
 <template>
@@ -53,12 +73,19 @@ import avatar from '@/assets/default.png'
     </el-aside>
     <el-container>
       <el-header>
-        <div>黑马程序员：<strong>小帅鹏</strong></div>
-        <el-dropdown placement="bottom-end">
+        <div>
+          黑马程序员：
+          <strong>
+            {{ UserStore.user.nickname || UserStore.user.username }}
+          </strong>
+        </div>
+        <el-dropdown placement="bottom-end" @command="handleCommand">
+          <!-- 展示给用户观看 -->
           <span class="el-dropdown__box">
-            <el-avatar :src="avatar" />
+            <el-avatar :src="UserStore.user.user_pic || avatar" />
             <el-icon><CaretBottom /></el-icon>
           </span>
+          <!-- 隐藏下拉菜单 -->
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="profile" :icon="User"
