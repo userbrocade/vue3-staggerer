@@ -1,10 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '@/stores/pinia'
 
+// 路由配置
 const router = createRouter({
   // createWebHistory 配置路由模式和指向
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: '/login', component: () => import('@/views/login/LoginPage.vue') },
+    {
+      path: '/login',
+      component: () => import('@/views/login/LoginPage.vue')
+    },
     {
       path: '/',
       component: () => import('@/views/layout/LayoutContainer.vue'),
@@ -33,6 +38,12 @@ const router = createRouter({
       ]
     }
   ]
+})
+
+// 登录导航守卫
+router.beforeEach((to) => {
+  const UserStore = useUserStore()
+  if (!UserStore.Token && to.path !== '/login') return '/login'
 })
 
 export default router
