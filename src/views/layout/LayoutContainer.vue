@@ -21,8 +21,13 @@ onMounted(() => {
 
 const router = useRouter()
 // 头像个人信息下拉菜单 利用@command获取key
-const handleCommand = (key) => {
+const handleCommand = async (key) => {
   if (key === 'logout') {
+    await ElMessageBox.confirm('你确认退出大事件吗？', '温馨提示', {
+      type: 'warning',
+      confirmButtonText: '确认',
+      cancelButtonText: '取消'
+    })
     UserStore.removeToken()
     UserStore.removeuser()
     router.push('/login')
