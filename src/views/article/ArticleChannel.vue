@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { artGetClassifyService } from '@/api/article'
 import { Edit, Delete } from '@element-plus/icons-vue'
-import ChannelEdit from './articles/ChannelEdit.vue'
+import ChannelEdit from '@/views/article/module/ChannelEdit.vue'
 
 const Classifydata = ref([]) // 存储分类数据
 const loading = ref(true) // loading 控制加载
@@ -22,6 +22,10 @@ const onAddChannel = () => {
 // 编辑
 const onEditChannel = (row) => {
   ChannelLiving.value.open(row)
+}
+// 子传父重新调用页面
+const onSuccess = () => {
+  getclassifyservice()
 }
 </script>
 
@@ -53,7 +57,7 @@ const onEditChannel = (row) => {
       </template>
     </el-table>
     <!-- 组件ChannelEdit -->
-    <ChannelEdit ref="ChannelLiving"></ChannelEdit>
+    <ChannelEdit ref="ChannelLiving" @success="onSuccess"></ChannelEdit>
   </PageContainer>
 </template>
 
