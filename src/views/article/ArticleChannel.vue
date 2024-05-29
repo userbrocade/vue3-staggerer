@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { artGetClassifyService } from '@/api/article'
+import { artGetClassifyService, artDelChannelService } from '@/api/article'
 import { Edit, Delete } from '@element-plus/icons-vue'
 import ChannelEdit from '@/views/article/module/ChannelEdit.vue'
 
@@ -27,6 +27,12 @@ const onEditChannel = (row) => {
 const onSuccess = () => {
   getclassifyservice()
 }
+// 删除-文章分类
+const onDelete = async (id) => {
+  await artDelChannelService(id)
+  getclassifyservice()
+  ElMessage.success('删除成功')
+}
 </script>
 
 <template>
@@ -48,7 +54,13 @@ const onSuccess = () => {
             type="primary"
             @click="onEditChannel(scope.row, scope.$index)"
           ></el-button>
-          <el-button plain circle :icon="Delete" type="danger"></el-button>
+          <el-button
+            plain
+            circle
+            :icon="Delete"
+            type="danger"
+            @click="onDelete(scope.row)"
+          ></el-button>
         </template>
       </el-table-column>
       <!-- 设置空状态 -->

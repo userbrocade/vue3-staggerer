@@ -41,7 +41,9 @@ const rules = {
     }
   ]
 }
+
 const item = defineEmits(['success'])
+// 调用遍及、修改接口
 const onsubmit = async () => {
   await form.value.validate() // 在实例调用 validate 再次验证表单
   if (formModel.value.id) {
@@ -52,6 +54,10 @@ const onsubmit = async () => {
 
   dialogVisible.value = false
   item('success')
+  ElMessage({
+    type: 'success',
+    message: formModel.value.id ? '编辑成功' : '添加成功'
+  })
 }
 </script>
 
