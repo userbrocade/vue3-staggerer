@@ -9,5 +9,8 @@ export const userLoginService = ({ username, password }) =>
   request.post('/api/login', { username, password })
 
 // 用户个人信息
-export const useUserService = (Authorization) =>
-  request.get('/my/userinfo', { Authorization })
+export const useUserService = () => request.get('/my/userinfo')
+
+// 用户个人信息更新
+export const useUpdateService = ({ id, nickname, email }) =>
+  request.put('/my/userinfo', { id, nickname, email })
