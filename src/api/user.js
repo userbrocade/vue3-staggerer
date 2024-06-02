@@ -14,3 +14,7 @@ export const useUserService = () => request.get('/my/userinfo')
 // 用户个人信息更新
 export const useUpdateService = ({ id, nickname, email }) =>
   request.put('/my/userinfo', { id, nickname, email })
+
+// 用户头像更新
+export const useAvatarService = (avatar) =>
+  request.patch('/my/update/avatar', { avatar })
