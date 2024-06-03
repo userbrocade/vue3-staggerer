@@ -18,3 +18,7 @@ export const useUpdateService = ({ id, nickname, email }) =>
 // 用户头像更新
 export const useAvatarService = (avatar) =>
   request.patch('/my/update/avatar', { avatar })
+
+// 用户密码更新
+export const usePasswordService = (object) =>
+  request.patch('/my/updatepwd', object)
